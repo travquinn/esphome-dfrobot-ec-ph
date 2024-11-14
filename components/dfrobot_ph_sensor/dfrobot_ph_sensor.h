@@ -4,7 +4,6 @@
 #include "esphome/components/sensor/sensor.h"
 #include "esphome/components/i2c/i2c.h"
 #include "DFRobot_ESP_PH_WITH_ADC.h"
-#include <Adafruit_ADS1X15.h>
 #include "esphome/components/ads1115/ads1115.h" // Include the ADS1115 component
 
 namespace esphome {
@@ -14,7 +13,7 @@ class DFRobotPHSensor : public sensor::Sensor, public PollingComponent, public i
  public:
   void set_temperature_sensor(sensor::Sensor *temp_sensor) { temp_sensor_ = temp_sensor; }
   void set_adc_channel(int channel) { adc_channel_ = channel; }
-  void set_ads1115(ADS1115Component *ads) { ads_ = ads; } // Change this line
+  void set_ads1115(ADS1115Component *ads) { ads_ = ads; } // Use ADS1115Component pointer
 
   void setup() override;
   void update() override;
@@ -24,7 +23,7 @@ class DFRobotPHSensor : public sensor::Sensor, public PollingComponent, public i
   sensor::Sensor *temp_sensor_{nullptr};
   int adc_channel_{0};
   DFRobot_ESP_PH_WITH_ADC ph_;
-  ADS1115Component *ads_; // Change this to point to ADS1115Component
+  ADS1115Component *ads_; // Pointer to ADS1115Component
 };
 
 }  // namespace dfrobot_ph_sensor
