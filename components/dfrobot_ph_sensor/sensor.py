@@ -1,6 +1,6 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
-from esphome.components import i2c, sensor
+from esphome.components import i2c, sensor, ads1115
 from esphome.const import CONF_ID, ICON_WATER, UNIT_PH
 
 DEPENDENCIES = ["i2c"]
@@ -23,7 +23,7 @@ CONFIG_SCHEMA = (
     .extend({
         cv.Required(CONF_TEMPERATURE_SENSOR): cv.use_id(sensor.Sensor),
         cv.Required(CONF_ADC_CHANNEL): cv.int_range(min=0, max=3),
-        cv.Required(CONF_ADS1115_ID): cv.use_id("ads1115"),  # Reference to the ADS1115 hub
+        cv.Required(CONF_ADS1115_ID): cv.use_id(ads1115.ADS1115Component),  # Reference to the ADS1115 hub
     })
     .extend(cv.polling_component_schema("60s"))
     .extend(i2c.i2c_device_schema(0x48))
