@@ -4,12 +4,14 @@ from esphome.components import i2c, sensor
 from esphome.const import CONF_ID, ICON_WATER, UNIT_PH
 
 DEPENDENCIES = ["i2c"]
+AUTO_LOAD = ["sensor"]
+
 CONF_TEMPERATURE_SENSOR = "temperature_sensor"
 CONF_ADC_CHANNEL = "adc_channel"
 
 dfrobot_ph_sensor_ns = cg.esphome_ns.namespace("dfrobot_ph_sensor")
 DFRobotPHSensor = dfrobot_ph_sensor_ns.class_(
-    "DFRobotPHSensor", cg.PollingComponent, i2c.I2CDevice, sensor.Sensor
+    "DFRobotPHSensor", sensor.Sensor, cg.PollingComponent, i2c.I2CDevice
 )
 
 CONFIG_SCHEMA = (
@@ -35,3 +37,6 @@ async def to_code(config):
     temp_sens = await cg.get_variable(config[CONF_TEMPERATURE_SENSOR])
     cg.add(var.set_temperature_sensor(temp_sens))
     cg.add(var.set_adc_channel(config[CONF_ADC_CHANNEL]))
+
+    # Add any additional libraries
+    cg.add_library("Adafruit ADS1X15", "2.4.0")
