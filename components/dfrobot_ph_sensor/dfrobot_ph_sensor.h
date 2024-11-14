@@ -4,7 +4,7 @@
 #include "esphome/components/sensor/sensor.h"
 #include "esphome/components/i2c/i2c.h"
 #include "DFRobot_ESP_PH_WITH_ADC.h"
-#include "Adafruit_ADS1015.h"
+#include <Adafruit_ADS1X15.h>
 
 namespace esphome {
 namespace dfrobot_ph_sensor {
