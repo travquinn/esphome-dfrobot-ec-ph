@@ -1,4 +1,4 @@
-#include "dfrobot_esp_ph_with_adc.h"
+#include "dfrobot_esp_ph.h"
 
 namespace esphome {
 namespace dfrobot_esp_ph {
