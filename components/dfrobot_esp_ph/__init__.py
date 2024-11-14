@@ -1,7 +1,3 @@
-from esphome.core import CORE
-
-CORE.register_component("dfrobot_esp_ph")
-
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import sensor, i2c
@@ -35,7 +31,7 @@ async def to_code(config):
     await i2c.register_i2c_device(var, config)
 
     temp_sens = await cg.get_variable(config[CONF_TEMPERATURE_SENSOR])
-    cg.add(var.set_temperature_sensor(temp_sens))
+    cg.add(var.set_temperature_sensor(temp_sensor))
     
     ph_sens = await sensor.new_sensor(config[CONF_PH_SENSOR])
     cg.add(var.set_ph_sensor(ph_sens))
