@@ -1,0 +1,1 @@
+DEPENDENCIES = ["i2c"]
