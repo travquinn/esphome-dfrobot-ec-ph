@@ -41,4 +41,7 @@ async def to_code(config):
     ads_id = config[CONF_ADS1115_ID]
     
     cg.add(var.set_adc_channel(adc_channel))
-    cg.add(var.set_ads1115_id(ads_id))  # Set the ADS1115 ID
+    
+    # Register the ADS1115 variable
+    ads_var = await cg.get_variable(ads_id)
+    cg.add(var.set_ads1115(ads_var))  # Ensure this method exists in your class definition
