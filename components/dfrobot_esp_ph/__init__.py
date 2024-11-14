@@ -1,3 +1,7 @@
+from esphome.core import CORE
+
+CORE.register_component("dfrobot_esp_ph")
+
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import sensor, i2c
