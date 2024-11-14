@@ -11,15 +11,11 @@ CONF_PH_SENSOR = 'ph_sensor'
 CONF_ADC_CHANNEL = 'adc_channel'
 
 dfrobot_esp_ph_ns = cg.esphome_ns.namespace('dfrobot_esp_ph')
-DFRobotESPPH = dfrobot_esp_ph_ns.class_('DFRobotESPPH', cg.PollingComponent, i2c.I2CDevice)
+DFRobotESPPH = dfrobot_esp_ph_ns.class_('DFRobotESPPH', sensor.Sensor, cg.PollingComponent, i2c.I2CDevice)
 
 CONFIG_SCHEMA = cv.Schema({
     cv.GenerateID(): cv.declare_id(DFRobotESPPH),
-    cv.Required(CONF_TEMPERATURE_SENSOR): sensor.sensor_schema(
-        unit_of_measurement=UNIT_CELSIUS,
-        icon=ICON_THERMOMETER,
-        accuracy_decimals=1
-    ),
+    cv.Required(CONF_TEMPERATURE_SENSOR): cv.use_id(sensor.Sensor),
     cv.Required(CONF_PH_SENSOR): sensor.sensor_schema(
         unit_of_measurement=UNIT_PH,
         icon=ICON_WATER,
@@ -34,7 +30,7 @@ async def to_code(config):
     await cg.register_component(var, config)
     await i2c.register_i2c_device(var, config)
 
-    temp_sens = await sensor.new_sensor(config[CONF_TEMPERATURE_SENSOR])
+    temp_sens = await cg.get_variable(config[CONF_TEMPERATURE_SENSOR])
     cg.add(var.set_temperature_sensor(temp_sens))
     
     ph_sens = await sensor.new_sensor(config[CONF_PH_SENSOR])
