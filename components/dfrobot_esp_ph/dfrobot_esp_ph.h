@@ -3,7 +3,7 @@
 #include "esphome/core/component.h"
 #include "esphome/components/sensor/sensor.h"
 #include "esphome/components/i2c/i2c.h"
-#include "dfrobot_esp_ph.h"
+#include "DFRobot_ESP_PH_WITH_ADC.h"
 #include "Adafruit_ADS1015.h"
 
 namespace esphome {
