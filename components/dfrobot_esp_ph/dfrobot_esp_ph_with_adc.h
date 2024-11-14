@@ -22,19 +22,24 @@ class DFRobotESPPH : public sensor::Sensor, public PollingComponent, public i2c:
   }
 
   void update() override {
-    float voltage = ads_.readADC_SingleEnded(adc_channel_) / 10.0f;
-    float temperature = temp_sensor_->state;
-    float ph_value = ph_.readPH(voltage, temperature);
+    if (temp_sensor_->has_state() && ph_sensor_ != nullptr) {
+      float voltage = ads_.readADC_SingleEnded(adc_channel_) / 10.0f;
+      float temperature = temp_sensor_->state;
+      float ph_value = ph_.readPH(voltage, temperature);
 
-    ph_sensor_->publish_state(ph_value);
+      ph_sensor_->publish_state(ph_value);
+    } else {
+      ESP_LOGW("dfrobot_esp_ph", "Temperature sensor has no state or pH sensor is not set");
+    }
   }
 
   void dump_config() override {
-    ESP_LOGCONFIG(TAG, "DFRobot ESP PH Sensor:");
+    ESP_LOGCONFIG("dfrobot_esp_ph", "DFRobot ESP PH Sensor:");
     LOG_I2C_DEVICE(this);
     LOG_UPDATE_INTERVAL(this);
     LOG_SENSOR("  ", "Temperature", temp_sensor_);
     LOG_SENSOR("  ", "pH", ph_sensor_);
+    ESP_LOGCONFIG("dfrobot_esp_ph", "  ADC Channel: %d", adc_channel_);
   }
 
  protected:
