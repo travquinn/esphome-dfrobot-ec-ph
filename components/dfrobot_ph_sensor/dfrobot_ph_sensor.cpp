@@ -1,5 +1,5 @@
-#include "esphome/core/log.h"
 #include "dfrobot_ph_sensor.h"
+#include "esphome/core/log.h"
 
 namespace esphome {
 namespace dfrobot_ph_sensor {
@@ -8,9 +8,8 @@ static const char *TAG = "dfrobot_ph_sensor";
 
 void DFRobotPHSensor::setup() {
   ph_.begin();
-  ads_.setGain(GAIN_TWOTHIRDS);  // 2/3x gain +/- 6.144V  1 bit = 0.1875mV (default)
+  ads_.setGain(GAIN_TWOTHIRDS);
   ads_.begin();
-  ESP_LOGCONFIG(TAG, "DFRobot pH Sensor initialized");
 }
 
 void DFRobotPHSensor::update() {
@@ -23,8 +22,8 @@ void DFRobotPHSensor::update() {
   float temperature = temp_sensor_->state;
   float ph_value = ph_.readPH(voltage, temperature);
 
-  ESP_LOGD(TAG, "Voltage: %.2fV, Temperature: %.2f°C, pH: %.2f", voltage, temperature, ph_value);
   publish_state(ph_value);
+  ESP_LOGD(TAG, "pH: %.2f, Voltage: %.2f, Temperature: %.2f", ph_value, voltage, temperature);
 }
 
 void DFRobotPHSensor::dump_config() {
