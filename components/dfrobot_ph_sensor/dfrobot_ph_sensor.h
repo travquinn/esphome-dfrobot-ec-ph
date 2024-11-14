@@ -13,7 +13,7 @@ class DFRobotPHSensor : public sensor::Sensor, public PollingComponent, public i
  public:
   void set_temperature_sensor(sensor::Sensor *temp_sensor) { temp_sensor_ = temp_sensor; }
   void set_adc_channel(int channel) { adc_channel_ = channel; }
-  void set_ads1115(Adafruit_ADS1115 *ads) { ads_ = ads; } // Add this line
+  void set_ads1115(Adafruit_ADS1115 *ads) { ads_ = ads; } // Change this line
 
   void setup() override;
   void update() override;
