@@ -7,21 +7,31 @@ namespace dfrobot_ph_sensor {
 static const char *TAG = "dfrobot_ph_sensor";
 
 void DFRobotPHSensor::setup() {
+  // Initialize the pH sensor
   ph_.begin();
+
+  // Initialize the ADS1115
   ads_.setGain(GAIN_TWOTHIRDS); // Adjust gain as needed
   ads_.begin();
 }
 
 void DFRobotPHSensor::update() {
+  // Check if the temperature sensor has a valid state
   if (temp_sensor_ == nullptr || !temp_sensor_->has_state()) {
     ESP_LOGW(TAG, "Temperature sensor not available");
     return;
   }
 
-  float voltage = ads_.readADC_SingleEnded(adc_channel_) * 0.1875 / 1000.0; // Adjust based on your ADC settings
+  // Read voltage from the specified ADC channel
+  float voltage = ads_.readADC_SingleEnded(adc_channel_) * 0.1875; // Convert to volts (0.1875 mV per bit for gain of +/-6.144V)
+  
+  // Read the temperature from the temperature sensor
   float temperature = temp_sensor_->state;
+
+  // Calculate pH value using the read voltage and temperature
   float ph_value = ph_.readPH(voltage, temperature);
 
+  // Publish the pH value to the state
   publish_state(ph_value);
 }
 
