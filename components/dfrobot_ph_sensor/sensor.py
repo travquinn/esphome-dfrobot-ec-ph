@@ -1,7 +1,6 @@
 # custom_components/ph_sensor/sensor.py
 import homeassistant.helpers.config_validation as cv
 from homeassistant.components.sensor import PLATFORM_SCHEMA, SensorEntity
-from .const import DOMAIN
 
 PLATFORM_SCHEMA = cv.extend({
     cv.Required('name'): cv.string,
