@@ -1,4 +1,4 @@
-# ~/.esphome/components/ph_sensor/sensor.py
+# /path/to/your/homeassistant/config/esphome/components/ph_sensor/sensor.py
 import time
 import board
 import busio
@@ -51,17 +51,3 @@ class PhSensor(SensorEntity):
         # Calculate pH based on the voltage (this is an example calculation, you might need to adjust it).
         pH = -2.0798 * math.log(voltage) + 12.47
         self._state = pH
-
-def setup_platform(hass, config, add_entities, discovery_info=None):
-    name = config.get("name")
-    temperature_sensor = config.get("temperature_sensor", None)
-    adc_channel = config.get("adc_channel")
-    i2c_id = config.get("i2c_id")
-
-    # Initialize the ADS1115 ADC
-    ads = ADS.ADS1115(i2c_id)
-
-    # Create an analog input channel.
-    channel = AnalogIn(ads, adc_channel)
-
-    add_entities([PhSensor(name, temperature_sensor, channel)])
